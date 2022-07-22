@@ -6,6 +6,7 @@
     <title>Actualités</title>
     <link rel="stylesheet" type="text/css" href="assets/css/style1.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <script src="lib/jquery/jquery.min.js"></script>
 
     <!-- <style>
@@ -198,7 +199,7 @@
                             showCancelButton: false,
                             showConfirmButton: false,
                             closeOnCancel: true,
-                            timer: 20000,
+                            timer: 2000,
                             timerProgressBar: true,
                         }).then(function() {
                             location.reload();
@@ -226,56 +227,54 @@
 </script>
 
 <body>
-    <?php require_once 'inc/entete.php'; ?>
-    <?php
-    require_once 'inc/menu.php';
-    ?>
-    <div id="contenu">
-        <table>
-            <tr>
-                <td>ID</td>
-                <td>titre</td>
-                <td>dateCreation</td>
-                <td>categorie</td>
-                <td>Contenu</td>
-                <td>Action</td>
-                <td> <button onclick="addArticle();">Nouveau article</button>
-                    <button>Nouveau categorie</button>
-                </td>
-            </tr>
-            <?php if (!empty($articles)) : print_r($categories);
-                $x = (array)$categories; ?>
-                <?php foreach ($articles as $article) : ?>
-                    <tr>
-                        <td>
-                            <div>
-                                <h1><a href="index.php?action=article&id=<?= $article->id ?>"><?= $article->id ?></a></h1>
-                            </div>
-                        </td>
-                        <td><?= $article->titre ?></td>
-                        <td><?= $article->dateCreation ?></td>
-                        <td><?= $article->libelle . " " . $article->categId ?></td>
-                        <td>
-                            <p><?= substr($article->contenu, 0, 30) . '...' ?></p>
-                        </td>
-                        <td>
-                            <button onclick="updateArticle(<?= $article->id ?>,'<?= $article->titre ?>','<?= $article->contenu ?>','<?= $article->libelle ?>');">
-                                Modifier
-                            </button>
-                            <!-- </a> -->
-                            <button onclick="deleteArticle(<?= $article->id ?>);">
+    <div class="container">
+        <?php require_once 'inc/entete.php'; ?>
+        <?php
+        require_once 'inc/menu.php';
+        ?>
+        <div id="contenu">
+            <table class="table table-responsive">
+                <tr>
+                    <td>ID</td>
+                    <td>titre</td>
+                    <td>dateCreation</td>
+                    <td>categorie</td>
+                    <td>Contenu</td>
+                    <td>Action</td>
+                    <td> <button class="btb btn-dark" onclick="addArticle();">Nouveau article</button>
+                        <button class="btb btn-dark">Nouveau categorie</button>
+                    </td>
+                </tr>
+                <?php if (!empty($articles)) : print_r($categories);
+                    $x = (array)$categories; ?>
+                    <?php foreach ($articles as $article) : ?>
+                        <tr>
+                            <td><?= $article->id ?></td>
+                            <td><?= $article->titre ?></td>
+                            <td><?= $article->dateCreation ?></td>
+                            <td><?= $article->libelle . " " . $article->categId ?></td>
+                            <td>
+                                <p><?= substr($article->contenu, 0, 30) . '...' ?></p>
+                            </td>
+                            <td>
+                                <button class="btb btn-primary" onclick="updateArticle(<?= $article->id ?>,'<?= $article->titre ?>','<?= $article->contenu ?>','<?= $article->libelle ?>');">
+                                    Modifier
+                                </button>
+                                <!-- </a> -->
+                                <button class="btb btn-danger" onclick="deleteArticle(<?= $article->id ?>);">
 
-                                Supprimer</button>
-                        </td>
-                    </tr>
-                <?php endforeach ?>
+                                    Supprimer</button>
+                            </td>
+                        </tr>
+                    <?php endforeach ?>
+            </table>
+        <?php else : ?>
+            <div class="message">Aucun article trouvé</div>
+        <?php endif ?>
+        </div>
         </table>
-    <?php else : ?>
-        <div class="message">Aucun article trouvé</div>
-    <?php endif ?>
-    </div>
-    </table>
 
+    </div>
 
 </body>
 
