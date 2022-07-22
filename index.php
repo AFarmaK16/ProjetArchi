@@ -28,6 +28,12 @@ if (isset($_GET['action'])) {
 			}
 			else if ($_GET['todo'] == 'addCateg') {
 				echo  $controller->addCategorie($_GET['categorie']);
+			}
+			else if ($_GET['todo'] == 'updateCateg') {
+				echo  $controller->updateCategorie($_GET['id'],$_GET['categorie']);
+			} 
+			else if ($_GET['todo'] == 'deleteCateg') {
+				echo  $controller->deleteCategorie($_GET['id']);
 			} 
 			else {
 				echo  $controller->DeleteArticle($_GET['id']);

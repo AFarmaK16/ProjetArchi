@@ -34,31 +34,33 @@ class Controller
 		$result = Article::updateArticle($id, $titre, $contenu,$categorie);
 		// $categories = Categorie::getList();
 		return $result;
-		// require_once 'vue/manageArticles.php';
 	}
 	public function DeleteArticle($id)
 	{
 		$result = Article::deleteArticle($id);
-		// $categories = Categorie::getList();
 		return $result;
-
-		// require_once 'vue/manageArticles.php';
 	}
 	public function addArticle($titre, $contenu,$categorie)
 	{
 		$result = Article::addArticle($titre, $contenu,$categorie);
-		// $categories = Categorie::getList();
 		return $result;
-
-		// require_once 'vue/manageArticles.php';
 	}
 	public function addCategorie($categorie)
 	{
 		$result = Article::addCategorie($categorie);
-		// $categories = Categorie::getList();
 		return $result;
-		// require_once 'vue/manageArticles.php';
 	}
+	public function deleteCategorie($id)
+	{
+		$result = Article::deleteCategorie($id);
+		return $result;
+	}
+	public function updateCategorie($id,$categorie)
+	{
+		$result = Article::updateCategorie($id,$categorie);
+		return $result;
+	}
+
 	public function showArticle($id)
 	{
 		$article = Article::getById($id);
