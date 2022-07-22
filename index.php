@@ -22,10 +22,14 @@ if (isset($_GET['action'])) {
 	if ($_GET['profil'] == 'editeur') {
 		if (isset($_GET['todo'])) {
 			if ($_GET['todo'] == 'update') {
-				echo  $controller->UpdateArticle($_GET['id'], $_GET['titre'], $_GET['contenu']);
-			} else if ($_GET['todo'] == 'add') {
-				echo  $controller->addArticle($_GET['titre'], $_GET['contenu']);
-			} else {
+				echo  $controller->UpdateArticle($_GET['id'], $_GET['titre'], $_GET['contenu'],$_GET['categorie']);
+			} else if ($_GET['todo'] == 'addArticle') {
+				echo  $controller->addArticle($_GET['titre'], $_GET['contenu'], $_GET['categorie']);
+			}
+			else if ($_GET['todo'] == 'addCateg') {
+				echo  $controller->addCategorie($_GET['categorie']);
+			} 
+			else {
 				echo  $controller->DeleteArticle($_GET['id']);
 			}
 		} else {

@@ -29,9 +29,9 @@ class Controller
 
 		require_once 'vue/manageArticles.php';
 	}
-	public function UpdateArticle($id, $titre, $contenu)
+	public function UpdateArticle($id, $titre, $contenu,$categorie)
 	{
-		$result = Article::updateArticle($id, $titre, $contenu);
+		$result = Article::updateArticle($id, $titre, $contenu,$categorie);
 		// $categories = Categorie::getList();
 		return $result;
 		// require_once 'vue/manageArticles.php';
@@ -44,12 +44,19 @@ class Controller
 
 		// require_once 'vue/manageArticles.php';
 	}
-	public function addArticle($titre, $contenu)
+	public function addArticle($titre, $contenu,$categorie)
 	{
-		$result = Article::addArticle($titre, $contenu);
+		$result = Article::addArticle($titre, $contenu,$categorie);
 		// $categories = Categorie::getList();
 		return $result;
 
+		// require_once 'vue/manageArticles.php';
+	}
+	public function addCategorie($categorie)
+	{
+		$result = Article::addCategorie($categorie);
+		// $categories = Categorie::getList();
+		return $result;
 		// require_once 'vue/manageArticles.php';
 	}
 	public function showArticle($id)

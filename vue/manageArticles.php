@@ -41,26 +41,69 @@
     </style> -->
 </head>
 <script>
-    // function update(id, titre, contenu) {
-    //     var tabArray = tab.split("*");
-    //     document.getElementById('titre').value = titre;
-    //     document.getElementById('contenu').value = contenu;
-    //     document.getElementById('articleId').innerHTML = "Modifier compte " + id;
-    //     const contact = document.getElementById('container');
-    //     contact.classList.add('active');
-    // }
     function addArticle() {
-        // alert(`<input  type='text' id="uprenom" class="swal2-input" value="${titre}" Placeholder="Prénom">
-        //   <input  type='text' id="unom" class="swal2-input" value="${contenu}" placeholder="Nom">
-        //   <select name="profil" id="profil" class="swal2-input" value="me">
-        //     <option > Medecin < /option> 
-        //     <option > Secretaire < /option>
-        //     </select>`);
-        // swal("Oops", "Something went wrong!", "error")
         Swal.fire({
             title: `Ajout d'un nouveau article`,
             html: ` <input   id="swal-input1" class="swal2-input"  placeholder="titre" >` +
-                `<textarea  id="swal-input2"   placeholder="contenu" rows="9" cols="50"></textarea>`,
+                ` <input   id="swal-input2" class="swal2-input"  placeholder="categorie" >` +
+                `<textarea  id="swal-input3"   placeholder="contenu" rows="9" cols="50"></textarea>`,
+            timer: 200000,
+            showCancelButton: true,
+            showConfirmButton: true,
+            closeOnCancel: true,
+            confirmButtonText: "ajouter",
+            cancelButtonText: "annuler",
+        }).then((result) => {
+            console.log(result);
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: "GET",
+                    url: "index.php",
+                    data: {
+                        profil: 'editeur',
+                        todo: 'addArticle',
+                        titre: document.getElementById('swal-input1').value,
+                        categorie: document.getElementById('swal-input2').value,
+                        contenu: document.getElementById('swal-input3').value
+                    },
+                    success: function(data) {
+
+                        if (data == 1) {
+                            Swal.fire({
+                                title: `L'article  a bien été ajouté`,
+                                icon: 'success',
+                                showCancelButton: false,
+                                showConfirmButton: false,
+                                closeOnCancel: true,
+                                timer: 2000,
+                                timerProgressBar: true,
+                            }).then(function() {
+                                location.reload();
+                            })
+                        } else {
+                            Swal.fire({
+                                title: data,
+                                icon: 'error',
+                                showCancelButton: false,
+                                showConfirmButton: false,
+                                closeOnCancel: true,
+                                // timer: 2000,
+                                timerProgressBar: true,
+                            })
+                        }
+                    }
+                })
+            }
+        })
+
+
+
+    }
+
+    function addCategorie() {
+        Swal.fire({
+            title: `Ajouter une nouvelle categorie`,
+            html: ` <input   id="swal-input1" class="swal2-input"  placeholder="libelle" >`,
             // timer: 200000,
             showCancelButton: true,
             showConfirmButton: true,
@@ -75,15 +118,14 @@
                     url: "index.php",
                     data: {
                         profil: 'editeur',
-                        todo: 'add',
-                        titre: document.getElementById('swal-input1').value,
-                        contenu: document.getElementById('swal-input2').value
+                        todo: 'addCateg',
+                        categorie: document.getElementById('swal-input1').value
                     },
                     success: function(data) {
 
                         if (data == 1) {
                             Swal.fire({
-                                title: `L'article  a bien été ajouté`,
+                                title: `Nouvelle categorie ajoute avec succes`,
                                 icon: 'success',
                                 showCancelButton: false,
                                 showConfirmButton: false,
@@ -119,8 +161,8 @@
         Swal.fire({
             title: `Modification de l'article #${id} de la categorie ${categorie}`,
             html: ` <input   id="swal-input1" class="swal2-input"  placeholder="titre" value="${titre}">` +
-                ` <input   id="swal-input1" class="swal2-input"  placeholder="categorie" value="${categorie}">` +
-                `<textarea  id="swal-input2"   placeholder="contenu" rows="9" cols="50">${contenu}</textarea>`,
+                ` <input   id="swal-input2" class="swal2-input"  placeholder="${categorie}">` +
+                `<textarea  id="swal-input3"   placeholder="contenu" rows="9" cols="50">${contenu}</textarea>`,
             // timer: 200000,
             showCancelButton: true,
             showConfirmButton: true,
@@ -137,7 +179,8 @@
                         todo: 'update',
                         id: id,
                         titre: document.getElementById('swal-input1').value,
-                        contenu: document.getElementById('swal-input2').value
+                        categorie: document.getElementById('swal-input2').value,
+                        contenu: document.getElementById('swal-input3').value
                     },
                     success: function(data) {
 
@@ -242,7 +285,7 @@
                     <td>Contenu</td>
                     <td>Action</td>
                     <td> <button class="btb btn-dark" onclick="addArticle();">Nouveau article</button>
-                        <button class="btb btn-dark">Nouveau categorie</button>
+                        <button class="btb btn-dark" onclick="addCategorie();">Nouveau categorie</button>
                     </td>
                 </tr>
                 <?php if (!empty($articles)) : print_r($categories);
@@ -252,7 +295,7 @@
                             <td><?= $article->id ?></td>
                             <td><?= $article->titre ?></td>
                             <td><?= $article->dateCreation ?></td>
-                            <td><?= $article->libelle . " " . $article->categId ?></td>
+
                             <td>
                                 <p><?= substr($article->contenu, 0, 30) . '...' ?></p>
                             </td>

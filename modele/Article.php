@@ -63,18 +63,36 @@ class Article
 		return $articles;
 	}
 	// ADD ARTICLE
-	public static function addArticle($titre, $contenu)
+	public static function addArticle($titre, $contenu,$categorie)
 	{
 		$bdd = ConnexionManager::getInstance();
 		// $sql = "UPDATE article SET titre= 'hey'  WHERE id = 1";
-		$update = $bdd->prepare("INSERT INTO article(titre,contenu,dateCreation) VALUES (:titre,:contenu,:dateCreation)");
+		$create = $bdd->prepare("INSERT INTO article(titre,contenu,dateCreation,categorie) VALUES (:titre,:contenu,:dateCreation,:categorie)");
 		// $update = $bdd->prepare('UPDATE utilisateurs SET NomUtilisateur = :newSName, PrenomUtilisateur = :newFName, MdpUtilisateur = :newPass WHERE NomUtilisateur = :oldSName AND PrenomUtilisateur = :oldFName AND MdpUtilisateur = :oldPass') or die(print_r($bdd->errorInfo()));
 
 
-		if ($update->execute(array(
+		if ($create->execute(array(
 			'titre' => $titre,
 			'contenu' => $contenu,
-			'dateCreation' => date('Y-m-d H:i:s')
+			'dateCreation' => date('Y-m-d H:i:s'),
+			'categorie' => $categorie
+		))) {
+			return true;
+		}
+
+		return false;
+	}
+	// ADD CATEGORIE
+	public static function addCategorie($categorie)
+	{
+		$bdd = ConnexionManager::getInstance();
+		// $sql = "UPDATE article SET titre= 'hey'  WHERE id = 1";
+		$create = $bdd->prepare("INSERT INTO categorie(libelle) VALUES (:libelle)");
+		// $update = $bdd->prepare('UPDATE utilisateurs SET NomUtilisateur = :newSName, PrenomUtilisateur = :newFName, MdpUtilisateur = :newPass WHERE NomUtilisateur = :oldSName AND PrenomUtilisateur = :oldFName AND MdpUtilisateur = :oldPass') or die(print_r($bdd->errorInfo()));
+
+
+		if ($create->execute(array(
+			'libelle' => $categorie
 		))) {
 			return true;
 		}
@@ -82,11 +100,11 @@ class Article
 		return false;
 	}
 	// UPDATE ARTICLE
-	public static function updateArticle($id, $titre, $contenu)
+	public static function updateArticle($id, $titre, $contenu,$categorie)
 	{
 		$bdd = ConnexionManager::getInstance();
 		// $sql = "UPDATE article SET titre= 'hey'  WHERE id = 1";
-		$update = $bdd->prepare("UPDATE article SET titre=:titre , contenu=:contenu,dateCreation=:dateCreation  WHERE id =:id");
+		$update = $bdd->prepare("UPDATE article SET titre=:titre , contenu=:contenu,dateCreation=:dateCreation,categorie=:categorie  WHERE id =:id");
 		// $update = $bdd->prepare('UPDATE utilisateurs SET NomUtilisateur = :newSName, PrenomUtilisateur = :newFName, MdpUtilisateur = :newPass WHERE NomUtilisateur = :oldSName AND PrenomUtilisateur = :oldFName AND MdpUtilisateur = :oldPass') or die(print_r($bdd->errorInfo()));
 
 
@@ -94,6 +112,7 @@ class Article
 			'titre' => $titre,
 			'contenu' => $contenu,
 			'dateCreation' => date('Y-m-d H:i:s'),
+			'categorie' => $categorie,
 			'id' => $id
 		))) {
 			return true;
