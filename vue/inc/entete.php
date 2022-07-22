@@ -1,4 +1,4 @@
 <div id="entete">
-Actualités polytechniciennes
+	Actualités polytechniciennes
 	<!-- <hr> -->
 </div>
