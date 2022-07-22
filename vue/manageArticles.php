@@ -112,9 +112,9 @@
 
     }
 
-    function updateArticle(id, titre, contenu, categorie, listCateg) {
-        alert(id + " list=" + listCateg + " " + titre);
-        console.log(listCateg);
+    function updateArticle(id, titre, contenu, categorie) {
+        // alert(id + " list=" + listCateg + " " + titre);
+        // console.log(listCateg);
         Swal.fire({
             title: `Modification de l'article #${id} de la categorie ${categorie}`,
             html: ` <input   id="swal-input1" class="swal2-input"  placeholder="titre" value="${titre}">` +
@@ -259,10 +259,7 @@
                             <p><?= substr($article->contenu, 0, 30) . '...' ?></p>
                         </td>
                         <td>
-                            <!-- <a href="index.php?profil=editeur&todo=update&id=<?= $article->id ?>"> -->
-                            <!-- <button> -->
-
-                            <button onclick='updateArticle(<?= $article->id ?>,"<?= $article->titre ?>","<?= $article->contenu ?>","<?= $article->libelle ?>","<?= json_encode($x); ?>");'>
+                            <button onclick="updateArticle(<?= $article->id ?>,'<?= $article->titre ?>','<?= $article->contenu ?>','<?= $article->libelle ?>');">
                                 Modifier
                             </button>
                             <!-- </a> -->
