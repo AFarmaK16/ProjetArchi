@@ -22,12 +22,7 @@ class Article
 	public static function getList()
 	{
 		$bdd = ConnexionManager::getInstance();
-		// $data = $bdd->query('SELECT * FROM Article ORDER BY id DESC limit 2');
 		$data = $bdd->query("SELECT article.id,titre,dateCreation,contenu,libelle,categorie.id as categId FROM `article` ,`categorie` where article.categorie= categorie.id ORDER BY id ASC");
-		// $data = $bdd->query('SELECT * FROM Article,Categorie WHERE Article.categorie= Categorie.id ORDER BY id ASC');
-		// $data = $bdd->query('SELECT * FROM Article ORDER BY id ASC');
-
-		// $data = $bdd->query('SELECT * FROM Article ORDER BY dateModification DESC');
 		$articles = $data->fetchAll(PDO::FETCH_CLASS, 'Article');
 		$data->closeCursor();
 		return $articles;
@@ -35,10 +30,7 @@ class Article
 	public static function getRecentArticle()
 	{
 		$bdd = ConnexionManager::getInstance();
-		// $data = $bdd->query('SELECT * FROM Article ORDER BY id DESC limit 2');
 		$data = $bdd->query('SELECT * FROM Article ORDER BY dateCreation DESC,id DESC limit 2');
-
-		// $data = $bdd->query('SELECT * FROM Article ORDER BY dateModification DESC');
 		$articles = $data->fetchAll(PDO::FETCH_CLASS, 'Article');
 		$data->closeCursor();
 		return $articles;
@@ -62,6 +54,7 @@ class Article
 		$data->closeCursor();
 		return $articles;
 	}
+
 	// *******************ARTICLE MANAGE***************
 
 	// ADD ARTICLE
@@ -134,18 +127,10 @@ class Article
 	public static function updateCategorie($id, $categorie)
 	{
 		$bdd = ConnexionManager::getInstance();
-		// $sql = "UPDATE article SET titre= 'hey'  WHERE id = 1";
-		$update = $bdd->prepare("UPDATE categorie SET libelle=:categorie WHERE id=:id");
-		// $update = $bdd->prepare('UPDATE utilisateurs SET NomUtilisateur = :newSName, PrenomUtilisateur = :newFName, MdpUtilisateur = :newPass WHERE NomUtilisateur = :oldSName AND PrenomUtilisateur = :oldFName AND MdpUtilisateur = :oldPass') or die(print_r($bdd->errorInfo()));
-// echo $id.' '.$categorie;
-
-		if ($update->execute(array(
-			'libelle' => $categorie,
-			'id' => $id
-		))) {
+		$update = $bdd->prepare("UPDATE categorie SET libelle=? WHERE id=?");
+		if ($update->execute([$categorie, $id])) {
 			return true;
 		}
-
 		return false;
 	}
 	//DELETE CATEGORIE
